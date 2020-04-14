@@ -1,11 +1,15 @@
 class CliFormat::Presenter
   class Tab < Base
     def text
-      @buffer << @header.join("\t") if @header
-      @rows.each do |row|
-        @buffer << row.join("\t")
+      @present_buffer << @header.join("\t") if @header
+      @stream.each do |row|
+        @present_buffer << format(row)
       end
-      @buffer.join("\n")
+      @present_buffer.join("\n")
+    end
+
+    def format(row)
+      row.join("\t")
     end
   end
 end

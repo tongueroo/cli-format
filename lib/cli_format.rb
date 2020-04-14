@@ -1,5 +1,7 @@
 require "active_support/core_ext/string"
 require "cli_format/version"
+require "memoist"
+
 require "cli_format/autoloader"
 CliFormat::Autoloader.setup
 

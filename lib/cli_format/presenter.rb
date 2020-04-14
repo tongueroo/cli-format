@@ -1,16 +1,25 @@
 module CliFormat
   class Presenter
-    attr_accessor :header, :rows
+    extend Memoist
+
+    attr_accessor :header
     def initialize(options)
       @options = options
-      @rows = []
     end
 
     def show
-      presenter_class = "CliFormat::Presenter::#{format.classify}".constantize
-      presenter = presenter_class.new(@options, @header, @rows)
-      presenter.show
+      presenter_instance.show
     end
+
+    def rows
+      presenter_instance.stream
+    end
+
+    def presenter_instance
+      presenter_class = "CliFormat::Presenter::#{format.classify}".constantize
+      presenter_class.new(@options, @header)
+    end
+    memoize :presenter_instance
 
     # Formats: tabs, markdown, json, csv, table, etc
     def format
